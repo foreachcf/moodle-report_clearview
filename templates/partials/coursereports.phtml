@@ -1,0 +1,67 @@
+<?php defined("MOODLE_INTERNAL") || die(); ?>
+<hr />
+
+<div class="container-fluid-dashboard">
+    <div class="row">
+        <main role="main" class="bg-gray col-md-12 col-lg-12 ml-sm-auto pt-3 px-4">
+            <div class="accordion" id="accordionExample">
+                <div class="card">
+                    <div class="card-header" id="headingOne">
+                        <h2 class="mb-0">
+                            <button class="btn btn-block text-left shadow-none panel-title" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                <span class="h2"><?= get_string('tabletitlecoursereports', 'report_clearview') ?></span>
+                            </button>
+                        </h2>
+                    </div>
+
+                    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                        <div class="card-body bg-white rounded">
+                            <?= $corereports ?>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingTwo">
+                        <h2 class="mb-0">
+                            <button class="btn btn-block text-left shadow-none panel-title collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                <span class="h2"><?= get_string('tabletitlecourseconfigurablereports', 'report_clearview') ?></span>
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <?= $crreportstable ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header" id="headingThree">
+                        <h2 class="mb-0">
+                            <button class="btn btn-block text-left shadow-none panel-title collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                <span class="h2"><?= get_string('tabletitlecourseadvancedreports', 'report_clearview') ?></span>
+                            </button>
+                        </h2>
+                    </div>
+                    <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                        <div class="card-body">
+                            <?= $advreportstable ?>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script>
+    const stringtranslations = <?= json_encode([
+        'jscurrentlocale' => current_language(),
+        'jsbaseurlfr' => (new moodle_url('/report/clearview/js/DataTables/fr-FR.json'))->out(),
+        'jscompletiongraphtitle' => get_string('jscompletiongraphtitle', 'report_clearview'),
+        'jscompletiongraphcomplete' => get_string('jscompletiongraphcomplete', 'report_clearview'),
+        'jscompletiongraphincomplete' => get_string('jscompletiongraphincomplete', 'report_clearview'),
+        'jscompletiongraphinpercentage' => get_string('jscompletiongraphinpercentage', 'report_clearview'),
+    ]) ?>;
+</script>

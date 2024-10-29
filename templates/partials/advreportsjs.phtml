@@ -1,0 +1,51 @@
+<script>
+    const indexpageurl = '<?= htmlspecialchars_decode($url->out()) ?>';
+
+    const stringtranslations = <?= json_encode([
+        'jscurrentlocale' => current_language(),
+        'jsbaseurlfr' => (new moodle_url('/report/clearview/js/DataTables/fr-FR.json'))->out(),
+        'tablesharecopied' => get_string('tablesharecopied', 'report_clearview'),
+    ]) ?>;
+
+    document.querySelector('#myShareButton').onclick = function() {
+        copyClip('myShareButton', indexpageurl, stringtranslations.tablesharecopied);
+    };
+
+    document.querySelector('#myExportCSVButton').onclick = function() {
+        var originalcontent = this.innerHTML;
+
+        this.innerHTML = '<i class="fa fa-spinner fa-spin"></i>';
+
+        url = indexpageurl + '&csv=1';
+
+        window.open(url, '_self').focus();
+
+        setTimeout(function() {
+            restoreexportcsvbutton(originalcontent);
+        }, 8000);
+    };
+
+    document.querySelector('#myExportXLSXButton').onclick = function() {
+        var originalcontent = this.innerHTML;
+
+        this.innerHTML = '<i class="fa fa-spinner fa-spin"></i>';
+
+        url = indexpageurl + '&xlsx=1';
+
+        window.open(url, '_self').focus();
+
+        setTimeout(function() {
+            restoreexportxlsxbutton(originalcontent);
+        }, 8000);
+    };
+
+    function restoreexportcsvbutton(originalcontent)
+    {
+        document.getElementById('myExportCSVButton').innerHTML = originalcontent;
+    }
+
+    function restoreexportxlsxbutton(originalcontent)
+    {
+        document.getElementById('myExportXLSXButton').innerHTML = originalcontent;
+    }
+</script>

@@ -1,0 +1,16 @@
+.panel-title::after {
+    font-family: 'Font Awesome 6 Free';
+    font: var(--fa-font-solid);
+    font-weight: 900;
+    content: '\f0ab';
+    color: #333;
+    top: 10px;
+    right: 20px;
+    position: absolute;
+}
+
+.panel-title[aria-expanded="true"]::after {
+    font-family: 'Font Awesome 6 Free';
+    font: var(--fa-font-solid);
+    content: '\f0aa';
+}

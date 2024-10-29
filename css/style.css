@@ -1,0 +1,7 @@
+table.dataTable.stripe tbody tr.odd, table.dataTable.display tbody tr.odd, table.dataTable tr.odd td.sorting_1 {
+    background-color: #DCDCDC;
+}
+
+table.dataTable tr.even td.sorting_1 {
+    background-color: #F5F5F5;
+}
