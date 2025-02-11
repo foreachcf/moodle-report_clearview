@@ -1,0 +1,7 @@
+.idea/
+/vendor/
+/node_modules/
+/moodle/vendor/
+/moodle/node_modules/
+/moodle42/vendor/
+/moodle42/node_modules/

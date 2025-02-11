@@ -1,0 +1,203 @@
+<?php defined("MOODLE_INTERNAL") || die(); ?>
+<hr />
+
+<div class="container-fluid-dashboard">
+    <div class="row">
+        <nav class="col-2 d-none d-md-block bg-light sidebar">
+            <div class="sidebar-sticky">
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                    <span><?= get_string('navtitlepersonal', 'report_clearview') ?></span>
+                </h6>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link <?php echo $reporttype === 1 ? 'active' : ''; ?>" href="/report/clearview/index.php?rpt=<?=REPORT_TYPE_PERSONAL ?>">
+                            <span data-feather="folder"></span>
+                            <?= $reporttypenamesarray[REPORT_TYPE_PERSONAL] ?>
+                        </a>
+                    </li>
+                </ul>
+                <?php if ($iscategorymanager): ?>
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                    <span><?= get_string('navtitlecatmanager', 'report_clearview') ?></span>
+                </h6>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link <?php echo $reporttype === 2 ? 'active' : ''; ?>" href="/report/clearview/index.php?rpt=<?=REPORT_TYPE_COURSE ?>&id=<?=$categoryid ?>&ext=<?=$extendedcategory ?>">
+                            <span data-feather="grid"></span>
+                            <?= $reporttypenamesarray[REPORT_TYPE_COURSE] ?>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <?php echo $reporttype === 3 ? 'active' : ''; ?>" href="/report/clearview/index.php?rpt=<?=REPORT_TYPE_USER ?>&id=<?=$categoryid ?>&ext=<?=$extendedcategory ?>">
+                            <span data-feather="users"></span>
+                            <?= $reporttypenamesarray[REPORT_TYPE_USER] ?>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" target="_blank" href="/report/lpmonitoring/index.php?pagecontextid=<?=$contextid ?>">
+                            <span data-feather="layers"></span>
+                            <?= get_string('statslearningplan', 'report_lpmonitoring') ?>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" target="_blank" href="/enrol/programs/management/index.php?contextid=<?=$contextid ?>">
+                            <span data-feather="git-branch"></span>
+                            <?= get_string('programs', 'enrol_programs') ?>
+                        </a>
+                    </li>
+                </ul>
+                <?php endif; ?>
+
+                <?php if ($iscategorymanager): ?>
+                <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+                    <span><?= get_string('navtitlefavlinks', 'report_clearview') ?></span>
+                </h6>
+                <ul class="nav flex-column mb-2">
+                    <li class="nav-item">
+                        <a class="nav-link" target="_blank" href="/blocks/configurable_reports/managereport.php?courseid=1">
+                            <span data-feather="file-text"></span>
+                            <?= get_string('blockname', 'block_configurable_reports') ?>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" target="_blank" href="/reportbuilder/index.php">
+                            <span data-feather="file-text"></span>
+                            <?= get_string('reportbuilder', 'core_reportbuilder') ?>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center" href="#">
+                            <span data-feather="file-text"></span>
+                            <?= get_string('navtitlefavorites', 'report_clearview') ?>
+                            <span class="m-2" data-feather="plus-circle"></span>
+                        </a>
+                    </li>
+                </ul>
+                <?php endif; ?>
+            </div>
+        </nav>
+
+        <main role="main" class="col-md-9 col-lg-10 ml-sm-auto pt-3 p-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+                <h1 class="h2"><?=$reporttypename ?>   <span class="lead">/ <?= get_string('navtitledashboard', 'report_clearview') ?></span></h1>
+            </div>
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pb-2 mb-3 border-bottom">
+                <?php if ($iscategorymanager): ?>
+                <div class="form-group m-2 p-2">
+                    <label for="select1"><?= get_string('navtitlecategory', 'report_clearview') ?><span id="categoryselectorspinner" class="m-1 p-1"></span></label>
+                    <select class="form-control" id="categorychangerselect1">
+                    <?php foreach ($usercategories as $catid => $category): ?>
+                        <?php if ($catid === $categoryid): ?>
+                        <?="\t\t" . '<option selected data-categoryid="' . $reporttype . ',' . $catid . ',' . $extendedcategory . '">' . $category . '</option>' . "\n" ?>
+                        <?php else: ?>
+                        <?="\t\t" . '<option data-categoryid="' . $reporttype . ',' . $catid . ',' . $extendedcategory . '">' . $category . '</option>' . "\n" ?>
+                        <?php endif; ?>
+                    <?php endforeach; ?>
+                    </select>
+                </div>
+                <div class="mt-3 p-1">
+                    <label>
+                        <span class="m-2"><?=get_string('navtitleextendedcategory', 'report_clearview') ?></span>
+                        <input id="extendedcategorytoggle" type="checkbox" value="ext" data-toggle="toggle" data-on="<?=get_string('navtitleextendedcategoryon', 'report_clearview') ?>" data-off="<?=get_string('navtitleextendedcategoryoff', 'report_clearview') ?>" data-onstyle="success" data-offstyle="danger" data-height="15px" data-width="65px" onchange="javascript:changeextcategory(<?=$reporttype ?>, <?=$categoryid ?>)" <?=$extendedcategory == 1 ? 'checked' : '' ?>>
+                    </label>
+                </div>
+                <?php endif; ?>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-3 col-md-4 col-lg-5 ml-4 mr-4 p-4">
+                    <canvas class="my-4" id="myChartTarget1"></canvas>
+                </div>
+                <div class="col-sm-4 col-md-5 col-lg-6 mt-5 ml-4 mx-1 p-1 align-items-center">
+                    <!-- <canvas class="my-4" id="myChartTarget2"></canvas>
+                    <canvas class="my-4" id="myChartTarget3"></canvas> -->
+                    <div class="display-4 mt-5 text-center"><?= get_string('tablenumberofenrolled', 'report_clearview') ?></div>
+                    <div class="display-1 mt-5 text-center"><strong><?= count($categorydata[$categoryid]['all_category_students']) ?></strong></div>
+                </div>
+            </div>
+
+            <div class="row m-2 p-2 mt-4 pt-4">
+                <div class="col-sm-8">
+                    <?php if ($extendedcategory): ?>
+                    <h2><?= get_string('tabletitleuserreportsext', 'report_clearview') ?></h2>
+                    <?php else: ?>
+                    <h2><?= get_string('tabletitleuserreports', 'report_clearview') ?></h2>
+                    <?php endif; ?>
+                </div>
+                <div class="col-sm-4">
+                    <div class="btn-group mr-2">
+                        <button id="myShareButton" class="btn btn-sm btn-outline-secondary"><?= get_string('tableshare', 'report_clearview') ?></button>
+                        <button id="myExportButton" class="btn btn-sm btn-outline-secondary"><?= get_string('tableexport', 'report_clearview') ?></button>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table id="data-table-1" class="table table-striped table-sm">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th><?= get_string('tableid', 'report_clearview') ?></th>
+                            <th><?= get_string('tablefullname', 'report_clearview') ?></th>
+                            <th><?= get_string('tableemail', 'report_clearview') ?></th>
+                            <th class="text-center"><?= get_string('tablenumberofcourses', 'report_clearview') ?></th>
+                            <th class="text-center"><?= get_string('tablecompletionrate', 'report_clearview') ?></th>
+                            <th class="text-center"><?= get_string('tablereports', 'report_clearview') ?></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach ($categorydata[$categoryid]['all_category_students'] as $studentid => $studentsobjects): ?>
+                        <tr>
+                            <td><img class="rounded-circle" src="<?=$studentsobjects['picture_url'] ?>" width="35" height="35" /></td>
+                            <td class="text-center"><?=!empty($studentsobjects['student_info']['idnumber']) ? $studentsobjects['student_info']['idnumber'] : 'N/A' ?></td>
+                            <td><a target="_blank" href="/user/view.php?id=<?=$studentsobjects['student_info']['id'] ?>"><?=$studentsobjects['student_info']['firstname'] . ' ' . $studentsobjects['student_info']['lastname'] ?></a></td>
+                            <td><?=$studentsobjects['student_info']['email'] ?: 'N/A' ?></td>
+                            <td class="text-center"><?=!empty($studentsobjects['completion']) ? count($studentsobjects['completion']) : 0 ?></td>
+                            <td class="text-center"><?=$studentsobjects['completion_average'] ?: 0 ?> %</td>
+                            <td class="text-center"><a target="_blank" href="/grade/report/overview/index.php?userid=<?= $studentsobjects['student_info']['id'] ?>&id=1"><span class="text-success" data-feather="file-text"></span></a></td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script>
+    const indexpageurl = '<?= htmlspecialchars_decode($url->out()) ?>';
+
+    const categorycompletion = <?= json_encode($categorydata['all_students_completion_average']) ?>;
+
+    const stringtranslations = <?= json_encode([
+        'jscurrentlocale' => current_language(),
+        'jsbaseurlfr' => (new moodle_url('/report/clearview/js/DataTables/fr-FR.json'))->out(),
+        'jscompletiongraphtitle' => get_string('jscompletiongraphtitle', 'report_clearview'),
+        'jscompletiongraphcomplete' => get_string('jscompletiongraphcomplete', 'report_clearview'),
+        'jscompletiongraphincomplete' => get_string('jscompletiongraphincomplete', 'report_clearview'),
+        'jscompletiongraphinpercentage' => get_string('jscompletiongraphinpercentage', 'report_clearview'),
+        'tablesharecopied' => get_string('tablesharecopied', 'report_clearview'),
+    ]) ?>;
+
+    document.querySelector('#myShareButton').onclick = function() {
+        copyClip('myShareButton', indexpageurl, stringtranslations.tablesharecopied);
+    };
+
+    document.querySelector('#myExportButton').onclick = function() {
+        var originalcontent = this.innerHTML;
+
+        this.innerHTML = '<i class="fa fa-spinner fa-spin"></i>';
+
+        url = indexpageurl + '&csv=1';
+
+        window.open(url, '_self').focus();
+
+        setTimeout(function() {
+            restoreexportbutton(originalcontent);
+        }, 8000);
+    };
+
+    function restoreexportbutton(originalcontent)
+    {
+        document.getElementById('myExportButton').innerHTML = originalcontent;
+    }
+</script>

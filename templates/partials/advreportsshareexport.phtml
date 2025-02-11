@@ -1,0 +1,12 @@
+            <div class="row m-2 p-2 mt-4 pt-4">
+                <div class="col-sm-8">
+                    <h2><?= $CFG->clearview['reports'][$reportid]['title'][$currentlanguage] ?></h2>
+                </div>
+                <div class="col-sm-4">
+                    <div class="btn-group mr-2">
+                        <button id="myShareButton" class="btn btn-sm btn-outline-secondary"><?= get_string('tableshare', 'report_clearview') ?></button>
+                        <button id="myExportCSVButton" class="btn btn-sm btn-outline-secondary"><?= get_string('tableexportcsv', 'report_clearview') ?></button>
+                        <button id="myExportXLSXButton" class="btn btn-sm btn-outline-secondary"><?= get_string('tableexportxlsx', 'report_clearview') ?></button>
+                    </div>
+                </div>
+            </div>
